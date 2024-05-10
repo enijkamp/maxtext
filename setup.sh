@@ -33,7 +33,7 @@ export NEEDRESTART_MODE=l
 
 (sudo bash || bash) <<'EOF'
 apt update && \
-apt install -y numactl lsb-release gnupg curl net-tools iproute2 procps lsof git ethtool && \
+apt install -y numactl lsb-release gnupg curl net-tools iproute2 procps lsof git ethtool pre-commit && \
 export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`
 echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | tee /etc/apt/sources.list.d/gcsfuse.list
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
