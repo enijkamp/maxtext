@@ -33,7 +33,8 @@ echo "Running 8b.sh"
 set -e
 
 export PLATFORM="gce"
-export EXECUTABLE="train_compile.py" # or train_compile.py
+# export EXECUTABLE="train_compile.py" # or train_compile.py
+export EXECUTABLE="train.py" # or train_compile.py
 
 # Set environment variables
 for ARGUMENT in "$@"; do
@@ -56,13 +57,13 @@ bash preflight.sh PLATFORM=$PLATFORM
 export LIBTPU_INIT_ARGS="--xla_enable_async_all_gather=true TPU_MEGACORE=MEGACORE_DENSE"
 python3 MaxText/$EXECUTABLE MaxText/configs/base.yml \
     steps=100 \
-    per_device_batch_size=8 \
+    per_device_batch_size=4 \
     enable_profiler=true \
-    remat_policy=minimal \
+    remat_policy=qkv_proj_offloaded \
     base_num_decoder_layers=42 \
     head_dim=128 \
-    base_num_kv_heads=32 \
-    base_num_query_heads=8 \
+    base_num_kv_heads=8 \
+    base_num_query_heads=32 \
     base_emb_dim=4096 \
     base_mlp_dim=11008 \
     max_target_length=8192 \
@@ -70,4 +71,5 @@ python3 MaxText/$EXECUTABLE MaxText/configs/base.yml \
     base_output_directory=$OUTPUT_PATH \
     dataset_path=$DATASET_PATH \
     dataset_type=synthetic \
-
+    compile_topology=v4-256 \
+    compile_topology_num_slices=1

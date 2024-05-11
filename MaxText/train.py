@@ -494,6 +494,7 @@ def train_loop(config, state=None):
 
     with jax.profiler.StepTraceAnnotation("train", step_num=step):
       example_batch = load_next_batch(data_iterator, example_batch, config)
+      print(example_batch['inputs'].shape)
       check_example_batch(config, example_batch=example_batch)
       nextrng = jax.jit(jax.random.fold_in)(init_rng, step)
       record_goodput(recorder, config, step=step)
@@ -542,6 +543,7 @@ def train_loop(config, state=None):
 
 
 def main(argv: Sequence[str]) -> None:
+  jax.distributed.initialize()
   jax.config.update("jax_default_prng_impl", "unsafe_rbg")
   os.environ["TF_CPP_MIN_LOG_LEVEL"] = "0"
   os.environ["LIBTPU_INIT_ARGS"] = os.environ.get("LIBTPU_INIT_ARGS", "") + " --xla_tpu_spmd_rng_bit_generator_unsafe=true"
