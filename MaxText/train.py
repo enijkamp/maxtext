@@ -255,6 +255,9 @@ def train_step(model, config, state, data, dropout_rng):
     rng2: A new rng key that can be used in future calls.
 
   """
+
+  max_logging.log(f"data.shape: {data.shape}")
+
   train_loss_fn = functools.partial(loss_fn, model, config, data, dropout_rng, is_train=True)
   grad_fn = jax.value_and_grad(train_loss_fn, has_aux=True)
   (loss, aux), raw_grads = grad_fn(state.params)

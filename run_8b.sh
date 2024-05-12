@@ -1,4 +1,4 @@
-export TPU_PREFIX="sfr-hiroakihayashi-tpu-v4-256-us-central2-b-1"
+export TPU_PREFIX="sfr-enijkamp-tpu-v4-256-us-central2-b-1"
 export RUN_NAME="test"
 export OUTPUT_PATH="gs://sfr-xgen-model-research-central2/datasets/maxtext/test_exp"
 export DATASET_PATH="gs://sfr-xgen-model-research-central2/datasets/maxtext/c4"
