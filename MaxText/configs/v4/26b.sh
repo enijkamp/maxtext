@@ -56,14 +56,14 @@ bash preflight.sh PLATFORM=$PLATFORM
 export LIBTPU_INIT_ARGS="--xla_enable_async_all_gather=true TPU_MEGACORE=MEGACORE_DENSE"
 python3 MaxText/$EXECUTABLE MaxText/configs/base.yml \
     steps=100 \
-    per_device_batch_size=4 \
+    per_device_batch_size=1 \
     enable_profiler=true \
     remat_policy=qkv_proj_offloaded \
     base_num_decoder_layers=54 \
     head_dim=128 \
     base_num_kv_heads=48 \
     base_num_query_heads=48 \
-    base_emb_dim=4096 \
+    base_emb_dim=6144 \
     base_mlp_dim=16384 \
     max_target_length=8192 \
     vocab_size=102400 \

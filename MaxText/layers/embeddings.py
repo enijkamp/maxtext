@@ -53,6 +53,7 @@ class Embed(nn.Module):
   embedding_init: Initializer = default_embed_init
 
   def setup(self):
+    assert self.features == 6144
     self.embedding = self.param(
         "embedding",
         with_logical_partitioning(self.embedding_init, ("vocab", "embed")),
