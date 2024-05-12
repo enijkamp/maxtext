@@ -103,7 +103,7 @@ _buffered_step = None
 _buffered_metrics = None
 
 
-def write_metrics(writer, local_metrics_file, running_gcs_metrics, metrics, step, config):
+def write_metrics(writer, local_metrics_file, running_gcs_metrics, metrics, step, config, tokens):
   """Entry point for all metrics writing in Train's Main.
   TODO: would be better as a Class in the future (that initialized all state!)
 
@@ -117,7 +117,7 @@ def write_metrics(writer, local_metrics_file, running_gcs_metrics, metrics, step
   if _buffered_metrics is not None:
     if _buffered_step is None:
       raise ValueError(f"When writing metrics, {_buffered_step=} was none")
-    write_metrics_to_tensorboard(writer, _buffered_metrics, _buffered_step, config)
+    write_metrics_to_tensorboard(writer, _buffered_metrics, _buffered_step, config, tokens)
 
     if config.metrics_file:
       max_utils.write_metrics_locally(_buffered_metrics, _buffered_step, config, local_metrics_file)
@@ -129,7 +129,7 @@ def write_metrics(writer, local_metrics_file, running_gcs_metrics, metrics, step
   _buffered_metrics = metrics
 
 
-def write_metrics_to_tensorboard(writer, metrics, step, config):
+def write_metrics_to_tensorboard(writer, metrics, step, config, tokens):
   """Writes metrics to tensorboard"""
   with jax.spmd_mode("allow_all"):
     if jax.process_index() == 0:
@@ -143,7 +143,8 @@ def write_metrics_to_tensorboard(writer, metrics, step, config):
     max_logging.log(
         f"completed step: {step}, seconds: {metrics['scalar']['perf/step_time_seconds']:.3f}, "
         f"TFLOP/s/device: {metrics['scalar']['perf/per_device_tflops_per_sec']:.3f}, "
-        f"loss: {metrics['scalar']['learning/loss']:.3f}"
+        f"loss: {metrics['scalar']['learning/loss']:.3f}, "
+        f"data: {tokens} tokens, {tokens/metrics['scalar']['perf/step_time_seconds']} tokens per second"
     )
 
     if full_log and jax.process_index() == 0:
@@ -256,7 +257,7 @@ def train_step(model, config, state, data, dropout_rng):
 
   """
 
-  max_logging.log(f"data.shape: {data.shape}")
+  max_logging.log(f"data['inputs'].shape: {data['inputs'].shape}")
 
   train_loss_fn = functools.partial(loss_fn, model, config, data, dropout_rng, is_train=True)
   grad_fn = jax.value_and_grad(train_loss_fn, has_aux=True)
@@ -517,7 +518,8 @@ def train_loop(config, state=None):
         checkpoint_manager.wait_until_finished()
         sys.exit()
 
-    write_metrics(writer, local_metrics_file, running_gcs_metrics, metrics, step, config)
+    tokens = np.prod(example_batch['inputs'].shape)
+    write_metrics(writer, local_metrics_file, running_gcs_metrics, metrics, step, config, tokens)
 
     if config.eval_interval > 0 and step > start_step and step % config.eval_interval == 0:
       assert eval_data_iterator
