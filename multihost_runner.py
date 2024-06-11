@@ -83,11 +83,13 @@ parser.add_argument('--RUN_NAME', type=str, default=default_run_name(),
                     help="Name for the code directory on the TPU")
 parser.add_argument('--USE_EXISTING_FOLDER', type=str, default="False",
                     help='If true, use the existing code directory on the TPU')
-parser.add_argument('--INTERNAL_IP', type=str, default="False",
+parser.add_argument('--INTERNAL_IP', type=str, default="True",
                     help="Set true if running script locally from a TPU or GCE instance, false otherwise.")
 args = parser.parse_args()
 args.USE_EXISTING_FOLDER = args.USE_EXISTING_FOLDER.lower() == "true"
 args.INTERNAL_IP = args.INTERNAL_IP.lower() == "true"
+
+print("INTERNAL_IP", args.INTERNAL_IP)
 
 if not args.TPU_PREFIX:
   raise ValueError("--TPU_PREFIX must be a non-empty string specifying your TPU slice names.")
@@ -258,6 +260,8 @@ def execute_main_command(main_command, slices, local_log_dir, zip_name):
         f" {worker_list[failure_index][1]} with error code {return_codes[failure_index]}, see logs for details", flush=True)
   return return_code
 
+import time
+
 def run_commands(commands, id_to_print, jobname, worker_list, is_shell=False, output_logs=None, fail_fast=True):
   ''' Runs commands in parallel.
   Inputs:
@@ -269,6 +273,8 @@ def run_commands(commands, id_to_print, jobname, worker_list, is_shell=False, ou
      output_logs: list of n log paths, each command will output to each log.
      fail_fast: If true, when one command fails immediately terminate others
   '''
+
+  print(' 'join(commands[0]))
 
   children = []
   start_time = datetime.now()
@@ -284,6 +290,9 @@ def run_commands(commands, id_to_print, jobname, worker_list, is_shell=False, ou
       output_log = subprocess.DEVNULL
 
     children.append(subprocess.Popen(command, stdout=output_log, stderr=output_log, shell=is_shell))
+
+    # print(i)
+    time.sleep(0.1)
 
   while True:
     returncodes = [child.poll() for child in children]
