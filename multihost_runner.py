@@ -274,7 +274,7 @@ def run_commands(commands, id_to_print, jobname, worker_list, is_shell=False, ou
      fail_fast: If true, when one command fails immediately terminate others
   '''
 
-  print(' 'join(commands[0]))
+  print(' '.join(commands[0]))
 
   children = []
   start_time = datetime.now()
