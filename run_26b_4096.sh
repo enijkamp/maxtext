@@ -7,4 +7,4 @@ gcloud alpha compute tpus tpu-vm create $TPU_PREFIX --zone=us-central2-b --accel
 # gcloud compute tpus tpu-vm ssh ext_erik_nijkamp_salesforce_com@sfr-ext_erik_nijkamp_salesforce_com-tpu-v4-4096-us-central2-b-1 --zone us-central2-b --worker=129 --internal-ip
 
 python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash setup.sh"
-python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash MaxText/configs/v4/26b_4096.sh RUN_NAME=${RUN_NAME} OUTPUT_PATH=${OUTPUT_PATH} DATASET_PATH=${DATASET_PATH}"
+python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash MaxText/configs/v4/26b_4096_v2.sh RUN_NAME=${RUN_NAME} OUTPUT_PATH=${OUTPUT_PATH} DATASET_PATH=${DATASET_PATH}"

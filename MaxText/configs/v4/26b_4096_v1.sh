@@ -71,4 +71,5 @@ python3 MaxText/$EXECUTABLE MaxText/configs/base.yml \
     dataset_path=$DATASET_PATH \
     dataset_type=synthetic \
     compile_topology=v4-4096 \
-    compile_topology_num_slices=1
+    compile_topology_num_slices=1 \
+    enable_checkpointing=false
