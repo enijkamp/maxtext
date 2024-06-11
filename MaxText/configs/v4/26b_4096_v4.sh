@@ -58,7 +58,7 @@ python3 MaxText/$EXECUTABLE MaxText/configs/base.yml \
     steps=100 \
     per_device_batch_size=2 \
     enable_profiler=false \
-    remat_policy=minimal \
+    remat_policy=qkv_proj_offloaded \
     base_num_decoder_layers=54 \
     head_dim=128 \
     base_num_kv_heads=48 \
