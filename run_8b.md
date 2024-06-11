@@ -1,3 +1,4 @@
+## Run
 
 ```bash
 SLICE=sfr-enijkamp-tpu-v4-256-us-central2-b-1
@@ -18,7 +19,4 @@ bash run_8b.sh
   * Added `jax.distributed.initialize()` at the beginning of train.py, which was necessary.
 
 ## Notes
-* ~~By default the TPU VM uses the old python3.8, which can't find the latest jax package. Update script is there.~~
-  * `tpu-ubuntu2204-base` works.
 * [Base config](MaxText/configs/base.yml) has a variety of untouched flags, including different degree of remat.
-* There is a config dir for v5p. When running on there, maybe there is a separate optimization?
