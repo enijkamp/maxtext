@@ -6,21 +6,21 @@ gcloud alpha compute tpus tpu-vm create $TPU_PREFIX --zone=us-central2-b --accel
 
 python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash setup.sh"
 
-export RUN_NAME="test_26b_4096_v1"
-export OUTPUT_PATH="gs://sfr-xgen-model-research-test/datasets/maxtext/test_26b_4096_v1"
+export RUN_NAME="test_26b_4096_v1_prof"
+export OUTPUT_PATH="gs://sfr-xgen-model-research-test/maxtext/test_26b_4096_v1_prof"
 python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash MaxText/configs/v4/26b_4096_v1.sh RUN_NAME=${RUN_NAME} OUTPUT_PATH=${OUTPUT_PATH} DATASET_PATH=${DATASET_PATH}"
 
 
 export RUN_NAME="test_26b_4096_v2"
-export OUTPUT_PATH="gs://sfr-xgen-model-research-test/datasets/maxtext/test_26b_4096_v2"
+export OUTPUT_PATH="gs://sfr-xgen-model-research-test/maxtext/test_26b_4096_v2"
 python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash MaxText/configs/v4/26b_4096_v2.sh RUN_NAME=${RUN_NAME} OUTPUT_PATH=${OUTPUT_PATH} DATASET_PATH=${DATASET_PATH}"
 
 
 export RUN_NAME="test_26b_4096_v3"
-export OUTPUT_PATH="gs://sfr-xgen-model-research-test/datasets/maxtext/test_26b_4096_v3"
+export OUTPUT_PATH="gs://sfr-xgen-model-research-test/maxtext/test_26b_4096_v3"
 python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash MaxText/configs/v4/26b_4096_v3.sh RUN_NAME=${RUN_NAME} OUTPUT_PATH=${OUTPUT_PATH} DATASET_PATH=${DATASET_PATH}"
 
 
 export RUN_NAME="test_26b_4096_v4"
-export OUTPUT_PATH="gs://sfr-xgen-model-research-test/datasets/maxtext/test_26b_4096_v4"
+export OUTPUT_PATH="gs://sfr-xgen-model-research-test/maxtext/test_26b_4096_v4"
 python3 multihost_runner.py --TPU_PREFIX=${TPU_PREFIX} --ZONE=us-central2-b --PROJECT=ehc-smeadusani-a73e97 --COMMAND="bash MaxText/configs/v4/26b_4096_v4.sh RUN_NAME=${RUN_NAME} OUTPUT_PATH=${OUTPUT_PATH} DATASET_PATH=${DATASET_PATH}"

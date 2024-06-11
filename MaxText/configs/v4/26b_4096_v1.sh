@@ -57,7 +57,7 @@ export LIBTPU_INIT_ARGS="--xla_enable_async_all_gather=true TPU_MEGACORE=MEGACOR
 python3 MaxText/$EXECUTABLE MaxText/configs/base.yml \
     steps=100 \
     per_device_batch_size=1 \
-    enable_profiler=false \
+    enable_profiler=true \
     remat_policy=qkv_proj_offloaded \
     base_num_decoder_layers=54 \
     head_dim=128 \
